@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<map>
+	<name>7</name>
+	<path>/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/spencer_map_7.pgm</path>
+	<width>34.0</width>
+	<height>140.0</height>
+	<origin>
+		<x>425.0</x>
+		<y>252.0</y>
+	</origin>
+</map>

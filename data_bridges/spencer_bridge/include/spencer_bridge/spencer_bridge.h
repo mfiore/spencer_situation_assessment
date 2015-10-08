@@ -35,11 +35,11 @@
 #include <tf/tf.h>
 #include <tf/transform_datatypes.h>
 
-#include <spencer_bridge/tinyxml2.h>
 
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Polygon.h>
 #include <geometry_msgs/Point32.h>
+#include <tinyxml2/tinyxml2.h>
 
 using namespace std;
 

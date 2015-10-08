@@ -1,18 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(spencer_bridge)
+project(spencer_symbolic_map)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  message_runtime
-  roscpp
-  rospy
-  spencer_mapping_msgs
-  spencer_tracking_msgs
-  data_lib
-  tinyxml2
-)
+find_package(catkin REQUIRED roscpp rospy message_runtime situation_assessment_msgs tinyxml2)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -71,7 +63,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   spencer_mapping_msgs#   spencer_tracking_igation_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ###################################
@@ -85,8 +77,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES spencer_bridge
-#  CATKIN_DEPENDS message_runtime roscpp rospy spencer_mapping_msgs spencer_tracking_msgs data_lib tinyxml2
+#  LIBRARIES spencer_symbolic_map
+ CATKIN_DEPENDS roscpp rospy message_runtime situation_assessment_msgs tinyxml2
 #  DEPENDS system_lib
 )
 
@@ -96,27 +88,24 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
+ include_directories(include 
+	${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
-# add_library(spencer_bridge
-#   src/${PROJECT_NAME}/spencer_bridge.cpp
+# add_library(spencer_symbolic_map
+#   src/${PROJECT_NAME}/spencer_symbolic_map.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(spencer_bridge src/spencer_bridge.cpp src/main.cpp)
+add_executable(spencer_symbolic_map src/spencer_symbolic_map.cpp src/spencer_map.cpp src/node_info.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-add_dependencies(spencer_bridge situation_assessment_msgs_generate_messages_cpp
-spencer_mapping_msgs_generate_messages_cpp spencer_tracking_msgs_generate_messages_cpp)
+add_dependencies(spencer_symbolic_map situation_assessment_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(spencer_bridge
+ target_link_libraries(spencer_symbolic_map
    ${catkin_LIBRARIES}
  )
 
@@ -135,7 +124,7 @@ spencer_mapping_msgs_generate_messages_cpp spencer_tracking_msgs_generate_messag
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS spencer_bridge spencer_bridge_node
+# install(TARGETS spencer_symbolic_map spencer_symbolic_map_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -160,7 +149,7 @@ spencer_mapping_msgs_generate_messages_cpp spencer_tracking_msgs_generate_messag
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_spencer_bridge.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_spencer_symbolic_map.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

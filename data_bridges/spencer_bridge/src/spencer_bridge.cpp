@@ -2,11 +2,13 @@
 
 
 SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridge",node_handle) {
-	
+	string robot_name;
+
 	node_handle_.getParam("situation_assessment/triangle_b",triangle_b_);
 	node_handle_.getParam("situation_assessment/triangle_h",triangle_h_);
-	node_handle_.getParam("supervision/doc_path",main_doc_path_);
-	node_handle_.getParam("supervision/doc_name",main_doc_name_);
+	node_handle_.getParam("situation_assessment/doc_path",main_doc_path_);
+	node_handle_.getParam("situation_assessment/doc_name",main_doc_name_);
+	node_handle_.getParam("/robot/name",robot_name);
 
 	ROS_INFO("Main document path and name are %s %s",main_doc_path_.c_str(),main_doc_name_.c_str());
 	
@@ -36,6 +38,35 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 		&SpencerBridge::trackedGroupsCallback,this);
 		ROS_INFO("Waiting for tracked groups to be published");
 	}	
+
+	//create robot_area
+
+	situation_assessment_msgs::AddArea add_area_request;
+	geometry_msgs::Polygon area_polygon;
+	vector<geometry_msgs::Point32> points;
+
+	geometry_msgs::Point32 p1,p2,p3,p4;
+	p1.x=1;
+	p1.y=0;
+
+	p2.x=-1;
+	p2.y=0;
+
+	p3.x=1;
+	p3.y=-3;
+
+	p4.x=-1;
+	p4.y=-3;
+
+	points.push_back(p1);
+	points.push_back(p2);
+	points.push_back(p3);
+	points.push_back(p4);
+
+	add_area_request.request.name=robot_name;
+	add_area_request.request.linked_to_entity=robot_name;
+	area_polygon.points=points;
+	add_area_request.request.area=area_polygon;
 
 }
 
@@ -221,7 +252,7 @@ void SpencerBridge::readObjects() {
 	double map_origin_y=boost::lexical_cast<double>(y_string);
 
 	tinyxml2::XMLNode *classNode=classDoc.FirstChildElement("classes")->FirstChildElement();
-	while (classNode!=NULL) {
+	while (classNode!=NULL && ros::ok()) {
 		ROS_INFO("In class node");
 
 		string class_name=classNode->FirstChildElement("name")->GetText();
@@ -229,7 +260,7 @@ void SpencerBridge::readObjects() {
 		tinyxml2::XMLNode *annotation_node=classNode->FirstChildElement("annotations")->FirstChild();
 
 		int i=0;
-		while (annotation_node!=NULL) {
+		while (annotation_node!=NULL && ros::ok()) {
 			ROS_INFO("In annotation node");
 			i++;
 			geometry_msgs::Pose pose;
@@ -263,6 +294,7 @@ void SpencerBridge::readObjects() {
 			addInformationScreenArea(object.name,pose.position.x,pose.position.y,theta);
 			annotation_node=annotation_node->NextSibling();
 		}
+		if (!ros::ok()) return;
 		classNode=classNode->NextSibling();
 
 	}
