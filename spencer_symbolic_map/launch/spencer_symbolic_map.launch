@@ -1,7 +1,7 @@
 <launch>
   <rosparam command="load" file="$(find situation_assessment_parameters)/situation_assessment_config.yaml" />
 
-<!--  <node name="map_server" pkg="map_server" type="map_server" args="/home/mfiore/ros_workspaces/hydro_ws/src/shary3/common_launch/LAAS-big-v2.yaml"/> --> 
+  <node name="map_server" pkg="map_server" type="map_server" args="/home/mfiore/ros_workspaces/hydro_ws/src/shary3/common_launch/LAAS-big-v2.yaml"/> 
 
 
 

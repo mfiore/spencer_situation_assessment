@@ -1,3 +1,14 @@
+/**
+spencer_human_estimaton.cpp
+
+author Michelangelo Fiore.
+
+Simple estimation of human intentions in spencer. At the moment only checks if humans are looking at information screens.
+If we don't use orientation (i.e. perception can't provide it) we just check if they are in the information screen area,
+if not we also check if they are turned toward the screen.
+*/
+
+
 #include <ros/ros.h>
 
 //services

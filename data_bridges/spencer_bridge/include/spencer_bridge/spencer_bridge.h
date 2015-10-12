@@ -1,3 +1,11 @@
+/**
+spencer_bridge.h
+
+author Michelangelo Fiore.
+
+Data Bridge used for the spencer proejct
+*/
+
 #ifndef SPENCER_BRIDGE_H
 #define SPENCER_BRIDGE_H
 
@@ -53,24 +61,28 @@ public:
 	SpencerBridge(ros::NodeHandle node_handle);
 
 private:
+	//get data from persons
 	void trackedPersonsCallback(const spencer_tracking_msgs::TrackedPersons::ConstPtr& msg);
+	//get data from groups
 	void trackedGroupsCallback(const spencer_tracking_msgs::TrackedGroups::ConstPtr& msg);
 
+	//read object positions from the xml file of the annotated map
 	void readObjects();
 
-	void removeArea(string name);
 	geometry_msgs::Point32 rotatePoint(geometry_msgs::Point32 p, geometry_msgs::Point32 pivot, double theta);
+	//creates monitor areas linked to the information screens
 	void addInformationScreenArea(string name, double x, double y, double theta);
 
-
+	//triangle sides for the information screens monitor areas
 	double triangle_b_, triangle_h_;
 
 	boost::mutex mutex_agents_, mutex_objects_,mutex_groups_,mutex_robot_;
 
-	ros::ServiceClient add_area_client_, remove_area_client_;
+	ros::ServiceClient add_area_client_;
 
 	ros::Subscriber tracked_persons_sub_, tracked_groups_sub_;
 
+	//paths to the annotated map xml documents
 	string class_document_path_;
 	string main_doc_name_;
 	string main_doc_path_;

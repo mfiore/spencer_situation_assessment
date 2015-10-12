@@ -14,11 +14,9 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 	
 	ROS_INFO("Monitor area for screens has h %f and b %f",triangle_h_,triangle_b_);
 	add_area_client_=node_handle_.serviceClient<situation_assessment_msgs::AddArea>("situation_assessment/add_area");
-	remove_area_client_=node_handle_.serviceClient<situation_assessment_msgs::NameRequest>("situation_assessment/remove_area");
 	
 	ROS_INFO("Waiting for area servers to be available");
 	add_area_client_.waitForExistence();
-	remove_area_client_.waitForExistence();
 
 	ros::Rate r(3);
 
@@ -39,7 +37,7 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 		ROS_INFO("Waiting for tracked groups to be published");
 	}	
 
-	//create robot_area
+	//creates area linked to the robot's position
 
 	situation_assessment_msgs::AddArea add_area_request;
 	geometry_msgs::Polygon area_polygon;
@@ -52,11 +50,11 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 	p2.x=-1;
 	p2.y=0;
 
-	p3.x=1;
-	p3.y=-3;
+	p3.x=-1;
+	p3.y=-10;
 
-	p4.x=-1;
-	p4.y=-3;
+	p4.x=1;
+	p4.y=-10;
 
 	points.push_back(p1);
 	points.push_back(p2);
@@ -67,6 +65,14 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 	add_area_request.request.linked_to_entity=robot_name;
 	area_polygon.points=points;
 	add_area_request.request.area=area_polygon;
+
+
+	if (add_area_client_.call(add_area_request)) {
+		ROS_INFO("Monitoring %s",robot_name.c_str());
+	}
+	else {
+		ROS_WARN("Failed to monitor area");
+	}
 
 }
 
@@ -129,33 +135,9 @@ void SpencerBridge::trackedGroupsCallback(const spencer_tracking_msgs::TrackedGr
 	}
 
 
-void SpencerBridge::removeArea(string name ) {
-	situation_assessment_msgs::NameRequest remove_area_request;
-	remove_area_request.request.name=name;
 
-	if (remove_area_client_.call(remove_area_request)) {
-		ROS_INFO("Removed area %s",name.c_str());
-	}
-	else {
-		ROS_WARN("Failed to remove area");
-	}
-}
 
 geometry_msgs::Point32 SpencerBridge::rotatePoint(geometry_msgs::Point32 p, geometry_msgs::Point32 pivot, double theta) {
-	// float s = sin(angle);
-	// float c = cos(angle);
-
-	// // translate point back to origin:
-	// p.x -= cx;
-	// p.y -= cy;
-
-	// // rotate point
-	// float xnew = p.x * c - p.y * s;
-	// float ynew = p.x * s + p.y * c;
-
-	// // translate point back:
-	// p.x = xnew + cx;
-	// p.y = ynew + cy;
 
 	p.x=p.x-pivot.x;
 	p.y=p.y-pivot.y;
@@ -183,13 +165,13 @@ void SpencerBridge::addInformationScreenArea(string name, double x, double y, do
 	p2.x=p1.x-triangle_b_/2;
 	p2.y=p1.y+triangle_h_;
 	ROS_INFO("%f %f",p2.x,p2.y);
-	p2=rotatePoint(p2,p1,6.28);
+	p2=rotatePoint(p2,p1,theta);
 	ROS_INFO("%f %f",p2.x,p2.y);
 
 	p3.x=p1.x+triangle_b_/2;
 	p3.y=p1.y+triangle_h_;
 	ROS_INFO("%f %f",p3.x,p3.y);
-	p3=rotatePoint(p3,p1,6.28);
+	p3=rotatePoint(p3,p1,theta);
 	ROS_INFO("%f %f",p3.x,p3.y);
 
 
