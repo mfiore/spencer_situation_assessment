@@ -4,8 +4,10 @@
 SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridge",node_handle) {
 	string robot_name;
 
-	node_handle_.getParam("situation_assessment/triangle_b",triangle_b_);
-	node_handle_.getParam("situation_assessment/triangle_h",triangle_h_);
+	node_handle_.getParam("situation_assessment/information_screen_area_b",triangle_b_);
+	node_handle_.getParam("situation_assessment/information_screen_area_h",triangle_h_);
+	node_handle_.getParam("situation_assessment/gate_area_b",gate_b_);
+	node_handle_.getParam("situation_assessment/gate_area_h",gate_h_);
 	node_handle_.getParam("situation_assessment/doc_path",main_doc_path_);
 	node_handle_.getParam("situation_assessment/doc_name",main_doc_name_);
 	node_handle_.getParam("/robot/name",robot_name);
@@ -44,17 +46,17 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 	vector<geometry_msgs::Point32> points;
 
 	geometry_msgs::Point32 p1,p2,p3,p4;
-	p1.x=1;
+	p1.x=2;
 	p1.y=0;
 
-	p2.x=-1;
+	p2.x=-2;
 	p2.y=0;
 
-	p3.x=-1;
-	p3.y=-10;
+	p3.x=-2;
+	p3.y=-7;
 
-	p4.x=1;
-	p4.y=-10;
+	p4.x=2;
+	p4.y=-7;
 
 	points.push_back(p1);
 	points.push_back(p2);
@@ -151,6 +153,55 @@ geometry_msgs::Point32 SpencerBridge::rotatePoint(geometry_msgs::Point32 p, geom
 	rotated_p.y=rotated_p.y+pivot.y;
 
 	return rotated_p;
+}
+
+void SpencerBridge::addGateArea(string name, double x, double y, double theta) {
+	// add rectangulare area and name of the gate
+	geometry_msgs::Polygon area_polygon;
+	vector<geometry_msgs::Point32> points;
+
+	geometry_msgs::Point32 center;
+	center.x=x;
+	center.y=y;
+
+	geometry_msgs::Point32 p1,p2,p3,p4;
+	p1.x=x+gate_b_/2;
+	p1.y=y;
+	p1=rotatePoint(p1,center,theta);
+
+	p2.x=p1.x;
+	p2.y=p1.y+gate_h_;
+	p2=rotatePoint(p2,center,theta);
+
+	p3.x=p2.x-gate_b_;
+	p3.y=p2.y;
+	p3=rotatePoint(p3,center,theta);
+
+	p4.x=p3.x;
+	p4.y=p3.y-gate_h_;
+	p4=rotatePoint(p4,center,theta);
+
+	points.push_back(p1);
+	points.push_back(p2);
+	points.push_back(p3);
+	points.push_back(p4);
+
+	area_polygon.points=points;
+
+	//now we add an area corresponding to the triangle, with the name of the object
+	//and also we add the object to monitoring
+
+	situation_assessment_msgs::AddArea add_area_request;
+	add_area_request.request.name=name;
+	add_area_request.request.area=area_polygon;
+
+	if (add_area_client_.call(add_area_request)) {
+		ROS_INFO("Monitoring %s",name.c_str());
+	}
+	else {
+		ROS_WARN("Failed to monitor area");
+	}
+
 }
 
 void SpencerBridge::addInformationScreenArea(string name, double x, double y, double theta) {
@@ -273,7 +324,12 @@ void SpencerBridge::readObjects() {
 			object.pose=pose;
 			object_poses_[object.name]=object;
 
-			addInformationScreenArea(object.name,pose.position.x,pose.position.y,theta);
+			if (class_name=="information_screen") {
+				addInformationScreenArea(object.name,pose.position.x,pose.position.y,theta);
+			}
+			else if (class_name=="gate") {
+				addGateArea(object.name,pose.position.x,pose.position.y,theta);
+			}
 			annotation_node=annotation_node->NextSibling();
 		}
 		if (!ros::ok()) return;

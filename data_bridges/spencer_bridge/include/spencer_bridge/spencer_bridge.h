@@ -72,9 +72,11 @@ private:
 	geometry_msgs::Point32 rotatePoint(geometry_msgs::Point32 p, geometry_msgs::Point32 pivot, double theta);
 	//creates monitor areas linked to the information screens
 	void addInformationScreenArea(string name, double x, double y, double theta);
+	void addGateArea(string name, double x, double y, double theta);
 
-	//triangle sides for the information screens monitor areas
+	//area informations for the objects to onitor
 	double triangle_b_, triangle_h_;
+	double gate_b_ , gate_h_;
 
 	boost::mutex mutex_agents_, mutex_objects_,mutex_groups_,mutex_robot_;
 

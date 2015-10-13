@@ -88,6 +88,7 @@ int main(int argc, char** argv) {
 	if (!spencer_map->calculateMapInfos()) return 0;
 
 	ros::ServiceServer get_map_service=node_handle.advertiseService("situation_assessment/get_symbolic_map",getMap);
+	ROS_INFO("Starting symbolic map");
 	ros::spin();
 
 }
