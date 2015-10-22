@@ -7,14 +7,18 @@ author Michelangelo Fiore
 #include <spencer_symbolic_map/spencer_map.h>
 
 SpencerMap::SpencerMap(ros::NodeHandle node_handle, string doc_path, string doc_name):node_handle_(node_handle),doc_path_(doc_path),doc_name_(doc_name) {
-	 ROS_INFO("Connecting to Add Area");
-	 add_area_client_=node_handle_.serviceClient<situation_assessment_msgs::AddArea>("/situation_assessment/add_area",true);
-	 add_area_client_.waitForExistence();
-	 ROS_INFO("Connected");
+
 }
 
 //gets map informations from yaml files
 bool SpencerMap::calculateMapInfos() {
+
+	ROS_INFO("Connecting to Add Area in spencer map");
+	add_area_client_=node_handle_.serviceClient<situation_assessment_msgs::AddArea>("situation_assessment/add_area");
+	add_area_client_.waitForExistence();
+	ROS_INFO("Connected to add area in spencer map");
+
+	
 	ROS_INFO("Calculating map information");
 
 	tinyxml2::XMLDocument mainDoc,partsDoc;
@@ -65,8 +69,8 @@ bool SpencerMap::calculateMapInfos() {
 
 		aMap.name=name;
 		geometry_msgs::Point center;
-		center.x=80-(centerX*resolution+map_origin_x);
-		center.y=80-(centerY*resolution+map_origin_y);
+		center.x=map_origin_x+(centerX*resolution);
+		center.y=map_origin_y+(centerY*resolution);
 		aMap.center=center;
 
 		tinyxml2::XMLNode *vertexNode=partNode->FirstChildElement("annotation")->FirstChildElement("vertex");
@@ -103,8 +107,8 @@ bool SpencerMap::calculateMapInfos() {
 		double originY=boost::lexical_cast<double>(oy);
 		
 		geometry_msgs::Point origin;
-		origin.x=80-originX;
-		origin.y=80-originY;
+		origin.x=originX+map_origin_x;
+		origin.y=originY+map_origin_y;
 
 		node_info_[name]=aMap;
 
@@ -113,27 +117,32 @@ bool SpencerMap::calculateMapInfos() {
 		vector<geometry_msgs::Point32> area_vertexs;
 		for (int i=0; i<vertexs.size();i++) {
 			geometry_msgs::Point32 v;
-			v.x=80-(vertexs[i].x*resolution+map_origin_x);
-			v.y=80-(vertexs[i].y*resolution+map_origin_y);
+			v.x=map_origin_x+(vertexs[i].x*resolution);
+			v.y=map_origin_y+(vertexs[i].y*resolution);
 			v.z=0;
 			area_vertexs.push_back(v);
 		}
-		geometry_msgs::Point32 v;
-		v.x=vertexs[0].x;
-		v.y=vertexs[0].y;
-		area_vertexs.push_back(v);
+		// geometry_msgs::Point32 v;
+		// v.x=vertexs[0].x;
+		// v.y=vertexs[0].y;
+		// area_vertexs.push_back(v);
 
 		geometry_msgs::Polygon polygon;
 		polygon.points=area_vertexs;
 
 		//monitors the area in situation assessment 
 
+
 		situation_assessment_msgs::AddArea addAreaRq;
 		addAreaRq.request.name=name;
 		addAreaRq.request.area=polygon;
 
-		add_area_client_.call(addAreaRq);
+		if (add_area_client_.call(addAreaRq)) {
 		ROS_INFO("Called addArea");
+		}
+		else {
+			ROS_WARN("Couldn't add area");
+		}
 
 		partNode=partNode->NextSibling();
 	}

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<project>
+	<name>LAAS_new</name>
+	<map>
+		<path>/home/tzkr/Data/LAAS_new.pgm</path>
+		<resolution>0.05</resolution>
+		<origin>
+			<x>-40.0</x>
+			<y>-40.0</y>
+		</origin>
+	</map>
+	<classes>/home/tzkr/temp/SPENCER/LAAS_new_classes.xml</classes>
+	<parts>/home/tzkr/temp/SPENCER/LAAS_new_parts.xml</parts>
+	<graph>/home/tzkr/temp/SPENCER/LAAS_new_graph.xml</graph>
+</project>

@@ -36,18 +36,20 @@ vector<string> getInformationScreens(ros::ServiceClient* simple_database_client)
 	situation_assessment_msgs::Fact request_fact;
 	situation_assessment_msgs::QueryDatabase query;
 
+	request_fact.model=robot_name;
 	request_fact.predicate.push_back("type");
-	request_fact.value="information_screen";
+	request_fact.value.push_back("object");
+	request_fact.value.push_back("Information_Screen");
 	query.request.query=request_fact;
-	if (simple_database_client->call(query)) {
-		vector<situation_assessment_msgs::Fact> result=query.response.result;
-		BOOST_FOREACH(situation_assessment_msgs::Fact f,result) {
-			information_screens.push_back(f.subject);
-		}
-	}
-	else {
-		ROS_WARN("Failed to contact database");
-	}
+	// if (simple_database_client->call(query)) {
+	// 	vector<situation_assessment_msgs::Fact> result=query.response.result;
+	// 	BOOST_FOREACH(situation_assessment_msgs::Fact f,result) {
+	// 		information_screens.push_back(f.subject);
+	// 	}
+	// }
+	// else {
+	// 	ROS_WARN("Failed to contact database");
+	// }
 	return information_screens;
 
 }
@@ -67,7 +69,7 @@ vector<situation_assessment_msgs::HumanIntention> getWantInformation(
 
 	BOOST_FOREACH(string screen, information_screens) {
 		//first we get all the people in an information screen area
-		request_area.request.query.value=screen;
+		request_area.request.query.value.push_back(screen);
 		if(simple_database->call(request_area)){
 			vector<situation_assessment_msgs::Fact> humans_in_area=request_area.response.result;
 			ROS_INFO("Loop size is %d",humans_in_area.size());
@@ -75,15 +77,15 @@ vector<situation_assessment_msgs::HumanIntention> getWantInformation(
 				if (use_orientation) {
 					//now we get the people that are looking at the screen
 					request_orientation.request.query.subject=human.subject;
-					request_orientation.request.query.value=screen;
-					simple_database->call(request_orientation);
-					if (request_orientation.response.result.size()>0) {
-						situation_assessment_msgs::HumanIntention intention;
-						intention.name=human.subject;
-						intention.intention="wants_informations";
+					request_orientation.request.query.value.push_back(screen);
+					// simple_database->call(request_orientation);
+					// if (request_orientation.response.result.size()>0) {
+					// 	situation_assessment_msgs::HumanIntention intention;
+					// 	intention.name=human.subject;
+					// 	intention.intention="wants_informations";
 
-						result.push_back(intention);
-					}	
+					// 	result.push_back(intention);
+					// }	
 				}
 				else {
 					situation_assessment_msgs::HumanIntention intention;

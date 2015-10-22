@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   spencer_tracking_msgs
   data_lib
   tinyxml2
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -86,7 +87,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES spencer_bridge
-#  CATKIN_DEPENDS message_runtime roscpp rospy spencer_mapping_msgs spencer_tracking_msgs data_lib tinyxml2
+#  CATKIN_DEPENDS message_runtime roscpp rospy spencer_mapping_msgs spencer_tracking_msgs data_lib tinyxml2 tf
 #  DEPENDS system_lib
 )
 

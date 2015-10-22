@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<graph>
+	<edge>
+		<node>3</node>
+		<node>0</node>
+	</edge>
+	<edge>
+		<node>0</node>
+		<node>1</node>
+	</edge>
+	<edge>
+		<node>1</node>
+		<node>2</node>
+	</edge>
+</graph>

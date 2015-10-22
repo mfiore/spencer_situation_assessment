@@ -1,0 +1,6 @@
+image: Adream_demo_2_Info_screen.pgm
+resolution: 0.1
+origin: [-40.0, -40.0, 0.0]
+occupied_thresh: 0.5
+free_thresh: 0.5
+negate: 0

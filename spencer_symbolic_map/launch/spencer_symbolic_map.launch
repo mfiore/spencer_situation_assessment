@@ -2,9 +2,8 @@
   <rosparam command="load" file="$(find situation_assessment_parameters)/situation_assessment_config.yaml" />
 
 <!--    <node name="map_server" pkg="map_server" type="map_server" args="/home/mfiore/ros_workspaces/hydro_ws/src/shary3/common_launch/LAAS-big-v2.yaml"/> 
- --> 
-
-
+ -->
+ 
  <!--  <node name="map_server" pkg="annotated_mapping" type="map_publishing_node" output="screen">
        <param name="map_files" value="$(find spencer_symbolic_map)/maps/spencer_map_0_1.yml;$(find spencer_symbolic_map)/maps/spencer_map_0_6.yml;$(find spencer_symbolic_map)/maps/spencer_map_1_2.yml;$(find spencer_symbolic_map)/maps/spencer_map_2_3.yml;$(find spencer_symbolic_map)/maps/spencer_map_3_7.yml;$(find spencer_symbolic_map)/maps/spencer_map_4_5.yml;$(find spencer_symbolic_map)/maps/spencer_map_6_7.yml;$(find spencer_symbolic_map)/maps/spencer_map_7_4.yml" /> 
 	<param name="start_node_1" value="0" type="str"/>

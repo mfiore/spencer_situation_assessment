@@ -1,0 +1,10 @@
+<launch>
+    <node pkg="tf" type="static_transform_publisher" name="map_tf" args="1 0 0 0 0 0 1 /map /map_part 100" />
+    <node name="map_server_parts" pkg="annotated_mapping" type="map_publishing_node" output="screen">
+        <param name="map_files" value="/home/tzkr/temp/SPENCER/LAAS_new_0_1.yml;/home/tzkr/temp/SPENCER/LAAS_new_1_2.yml;/home/tzkr/temp/SPENCER/LAAS_new_3_0.yml"/>
+        <param name="start_node_1" value="1" type="str"/>
+        <param name="start_node_2" value="2" type="str"/>
+        <param name="map_topic_name" value="map_part" type="str"/>
+    </node>
+    <node name="map_server_full" pkg="map_server" type="map_server" args="/home/tzkr/Data/LAAS_new.yaml"/>
+</launch>

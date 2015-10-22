@@ -42,6 +42,7 @@ Data Bridge used for the spencer proejct
 
 #include <tf/tf.h>
 #include <tf/transform_datatypes.h>
+#include <tf/transform_listener.h>
 
 
 #include <geometry_msgs/Pose.h>
@@ -72,7 +73,11 @@ private:
 	geometry_msgs::Point32 rotatePoint(geometry_msgs::Point32 p, geometry_msgs::Point32 pivot, double theta);
 	//creates monitor areas linked to the information screens
 	void addInformationScreenArea(string name, double x, double y, double theta);
-	void addGateArea(string name, double x, double y, double theta);
+	geometry_msgs::Pose addGateArea(string name, double x, double y, double theta);
+	void addOtherArea(string name, vector<geometry_msgs::Pose> vertex_poses);
+
+	geometry_msgs::Pose transformPose(geometry_msgs::Pose init_pose, string frame_id, tf::StampedTransform *transform);
+
 
 	//area informations for the objects to onitor
 	double triangle_b_, triangle_h_;

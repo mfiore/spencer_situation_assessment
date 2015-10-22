@@ -1,0 +1,6 @@
+image: /home/tzkr/temp/SPENCER/LAAS_new_0_1.pgm
+resolution: 0.05
+origin: [-9.45, -3.25, 0.0]
+occupied_thresh: 0.5
+free_thresh: 0.5
+negate: 0
