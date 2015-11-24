@@ -79,6 +79,8 @@ private:
 	geometry_msgs::Pose transformPose(geometry_msgs::Pose init_pose, string frame_id, tf::StampedTransform *transform);
 
 
+	tf::TransformListener listener_;
+
 	//area informations for the objects to onitor
 	double triangle_b_, triangle_h_;
 	double gate_b_ , gate_h_;

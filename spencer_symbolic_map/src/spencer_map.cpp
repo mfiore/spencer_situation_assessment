@@ -13,13 +13,13 @@ SpencerMap::SpencerMap(ros::NodeHandle node_handle, string doc_path, string doc_
 //gets map informations from yaml files
 bool SpencerMap::calculateMapInfos() {
 
-	ROS_INFO("Connecting to Add Area in spencer map");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Connecting to Add Area in spencer map");
 	add_area_client_=node_handle_.serviceClient<situation_assessment_msgs::AddArea>("situation_assessment/add_area");
 	add_area_client_.waitForExistence();
-	ROS_INFO("Connected to add area in spencer map");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Connected to add area in spencer map");
 
 	
-	ROS_INFO("Calculating map information");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Calculating map information");
 
 	tinyxml2::XMLDocument mainDoc,partsDoc;
 	string main_doc_path,parts_doc_path;
@@ -33,11 +33,11 @@ bool SpencerMap::calculateMapInfos() {
 		return false;
 	}
 	if (error2!=0) {
-		ROS_INFO("Cannot find parts map file");
+		ROS_INFO("SPENCER_SYMBOLIC_MAP  Cannot find parts map file");
 		return false;
 	}
 	else {
-		ROS_INFO("Found maps. Starting parsing");
+		ROS_INFO("SPENCER_SYMBOLIC_MAP  Found maps. Starting parsing");
 	}
 	string resolutionString=mainDoc.FirstChildElement("project")->FirstChildElement("map")->FirstChildElement("resolution")->GetText();
 	boost::trim(resolutionString);
@@ -92,7 +92,7 @@ bool SpencerMap::calculateMapInfos() {
 
 		tinyxml2::XMLDocument partInfoNode;
 		string partInfoName=doc_path_+doc_name_+"_"+name+".xml";
-		ROS_INFO("Loading map %s",partInfoName.c_str());
+		ROS_INFO("SPENCER_SYMBOLIC_MAP  Loading map %s",partInfoName.c_str());
 		if (partInfoNode.LoadFile(partInfoName.c_str())!=0) {
 			ROS_ERROR("Part document not found");
 			return false;
@@ -138,7 +138,7 @@ bool SpencerMap::calculateMapInfos() {
 		addAreaRq.request.area=polygon;
 
 		if (add_area_client_.call(addAreaRq)) {
-		ROS_INFO("Called addArea");
+		ROS_INFO("SPENCER_SYMBOLIC_MAP  Called addArea");
 		}
 		else {
 			ROS_WARN("Couldn't add area");
@@ -147,7 +147,7 @@ bool SpencerMap::calculateMapInfos() {
 		partNode=partNode->NextSibling();
 	}
 
-	ROS_INFO("Creating Edges");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Creating Edges");
 
 	tinyxml2::XMLDocument graph_doc;
 	string graph_doc_path;
@@ -158,7 +158,7 @@ bool SpencerMap::calculateMapInfos() {
 		while (edge_node!=NULL) {
 			// tinyxml2::XMLNode *edge_element=edge_node->FirstChildElement();
 			string n1=edge_node->FirstChildElement()->GetText();
-		ROS_INFO("Found document");
+		ROS_INFO("SPENCER_SYMBOLIC_MAP  Found document");
 
 			// edge_element=edge_element->NextSibling();
 			string n2=edge_node->LastChildElement()->GetText();
@@ -167,7 +167,7 @@ bool SpencerMap::calculateMapInfos() {
 			n1_edges.push_back(n2);
 			edges_[n1]=n1_edges;
 
-			ROS_INFO("Edge %s %s",n1.c_str(),n2.c_str());
+			ROS_INFO("SPENCER_SYMBOLIC_MAP  Edge %s %s",n1.c_str(),n2.c_str());
 			edge_node=edge_node->NextSibling();
 		}
 	}
@@ -175,7 +175,7 @@ bool SpencerMap::calculateMapInfos() {
 		ROS_ERROR("Can't find graph doc");
 		return false;
 	}
-	ROS_INFO("Parsed maps");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Parsed maps");
 	return true;
 
 }

@@ -125,39 +125,24 @@ void SpencerBridge::trackedPersonsCallback(const spencer_tracking_msgs::TrackedP
 
 	map<string,bool> still_present;
 
-	// ROS_INFO("In callback");
 
 	for (EntityMap::iterator agent=agent_poses_.begin();agent!=agent_poses_.end();agent++) {
 		still_present[agent->first]=false;
 	}
 
 	tf::StampedTransform transform;
-	tf::TransformListener listener;
-
-	// try{
-
-	//     // will transform data in the goal_frame into the planner_frame_
-	//     listener.waitForTransform( "map", "odom", ros::Time::now(), ros::Duration(0.20));
-	//     listener.lookupTransform(  "map",  "odom", ros::Time::now(), transform);
-
-	// }
-	// catch(tf::TransformException){
-	//     ROS_ERROR("Transform error");
-	// 	return;
-	// }
-
 
 
 	// ROS_INFO("msg tracks size %ld",msg->tracks.size());
 	if (msg->tracks.size()>0) {
 		try{
 		    // will transform data in the goal_frame into the planner_frame_
-		    listener.waitForTransform( "map", "odom", ros::Time(0), ros::Duration(0.50));
-		    listener.lookupTransform(  "map",  "odom", ros::Time(0), transform);
+		    listener_.waitForTransform( "/map", msg->header.frame_id, ros::Time(0), ros::Duration(0.50));
+		    listener_.lookupTransform(  "/map",  msg->header.frame_id, ros::Time(0), transform);
 
 		}
-		catch(tf::TransformException){
-		    ROS_ERROR("Transform error");
+		catch(tf::TransformException ex){
+		    ROS_ERROR("SPENCER_BRIDGE %s",ex.what());
 			return;
 		}
 	}
@@ -183,7 +168,6 @@ void SpencerBridge::trackedPersonsCallback(const spencer_tracking_msgs::TrackedP
 			agent_poses_.erase(agent->first);
 		}
 	 }
-	// ROS_INFO("Returnign");
 }
 
 void SpencerBridge::trackedGroupsCallback(const spencer_tracking_msgs::TrackedGroups::ConstPtr& msg) {
@@ -443,7 +427,7 @@ void SpencerBridge::readObjects() {
 
 					geometry_msgs::Pose this_pose;
 					this_pose.position.x=boost::lexical_cast<double>(scx)*resolution+map_origin_x;
-					this_pose.position.y=(800-boost::lexical_cast<double>(scy))*resolution;
+					this_pose.position.y=boost::lexical_cast<double>(scy)*resolution+map_origin_y;
 					vertex_poses.push_back(this_pose);
 				}
 				else if (child_name=="name") {

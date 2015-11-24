@@ -33,7 +33,7 @@ SpencerMap* spencer_map;
 using namespace std;
 
 bool getMap(situation_assessment_msgs::GetMap::Request &req, situation_assessment_msgs::GetMap::Response &res) {
-	ROS_INFO("Got request");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Got request");
 
 	vector<string> map_nodes=spencer_map->getNodes();
 	map<string,vector<string> > map_edges=spencer_map->getEdges();
@@ -42,7 +42,7 @@ bool getMap(situation_assessment_msgs::GetMap::Request &req, situation_assessmen
 
 	vector<situation_assessment_msgs::Node> msg_nodes;
 	vector<situation_assessment_msgs::Edge> msg_edges;
-	ROS_INFO("There are %ld nodes:",map_nodes.size());
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  There are %ld nodes:",map_nodes.size());
 	for (int i=0; i<map_nodes.size();i++) {
 		situation_assessment_msgs::Node n;
 		n.label=map_nodes[i];
@@ -50,11 +50,11 @@ bool getMap(situation_assessment_msgs::GetMap::Request &req, situation_assessmen
 		n.center=node_info.center;
 		n.vertexs=node_info.vertexs;
 
-		ROS_INFO("- %s",n.label.c_str());
+		ROS_INFO("SPENCER_SYMBOLIC_MAP  - %s",n.label.c_str());
 
 		msg_nodes.push_back(n);
 	}
-	ROS_INFO("With edges:");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  With edges:");
 	for (map<string,vector<string> >::iterator i=map_edges.begin();i!=map_edges.end();i++) {
 		vector<string> destinations=i->second;
 		for (int j=0; j<destinations.size(); j++) { 
@@ -62,7 +62,7 @@ bool getMap(situation_assessment_msgs::GetMap::Request &req, situation_assessmen
 			e.source=i->first;
 			e.destination=destinations[j];
 			msg_edges.push_back(e);
-			ROS_INFO("- %s %s",e.source.c_str(),e.destination.c_str());
+			ROS_INFO("SPENCER_SYMBOLIC_MAP  - %s %s",e.source.c_str(),e.destination.c_str());
 		}
 	}
 	g.nodes=msg_nodes;
@@ -80,15 +80,15 @@ int main(int argc, char** argv) {
 	node_handle.getParam("/situation_assessment/doc_path",doc_path);
 	node_handle.getParam("/situation_assessment/doc_name",doc_name);
 
-	ROS_INFO("Parameters are:");
-	ROS_INFO("Doc path %s",doc_path.c_str());
-	ROS_INFO("Doc name %s",doc_name.c_str());
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Parameters are:");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Doc path %s",doc_path.c_str());
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Doc name %s",doc_name.c_str());
 
 	spencer_map=new SpencerMap(node_handle,doc_path,doc_name);
 	if (!spencer_map->calculateMapInfos()) return 0;
 
 	ros::ServiceServer get_map_service=node_handle.advertiseService("situation_assessment/get_symbolic_map",getMap);
-	ROS_INFO("Starting symbolic map");
+	ROS_INFO("SPENCER_SYMBOLIC_MAP  Starting symbolic map");
 	ros::spin();
 
 }
