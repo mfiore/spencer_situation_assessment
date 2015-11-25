@@ -1,6 +1,13 @@
 <launch>
   <rosparam command="load" file="$(find situation_assessment_parameters)/situation_assessment_config.yaml" />
 
+   <node name="map_server" pkg="annotated_mapping" type="map_publishing_node" output="screen">
+       <param name="map_files" value="$(find spencer_symbolic_map)/maps/LAAS_new/LAAS_new_0_1.yml;$(find spencer_symbolic_map)/maps/LAAS_new/LAAS_new_1_2.yml;$(find spencer_symbolic_map)/maps/LAAS_new/LAAS_new_3_0.yml" /> 
+	<param name="start_node_1" value="0" type="str"/>
+    <param name="start_node_2" value="1" type="str"/>  
+</node> 
+   
+
 
   <node name="spencer_symbolic_map" pkg="spencer_symbolic_map" type="spencer_symbolic_map" output="screen" />
 </launch>

@@ -13,10 +13,10 @@ SpencerMap::SpencerMap(ros::NodeHandle node_handle, string doc_path, string doc_
 //gets map informations from yaml files
 bool SpencerMap::calculateMapInfos() {
 
-	ROS_INFO("SPENCER_SYMBOLIC_MAP  Connecting to Add Area in spencer map");
-	add_area_client_=node_handle_.serviceClient<situation_assessment_msgs::AddArea>("situation_assessment/add_area");
-	add_area_client_.waitForExistence();
-	ROS_INFO("SPENCER_SYMBOLIC_MAP  Connected to add area in spencer map");
+	// ROS_INFO("SPENCER_SYMBOLIC_MAP  Connecting to Add Area in spencer map");
+	// add_area_client_=node_handle_.serviceClient<situation_assessment_msgs::AddArea>("situation_assessment/add_area");
+	// add_area_client_.waitForExistence();
+	// ROS_INFO("SPENCER_SYMBOLIC_MAP  Connected to add area in spencer map");
 
 	
 	ROS_INFO("SPENCER_SYMBOLIC_MAP  Calculating map information");
@@ -83,8 +83,8 @@ bool SpencerMap::calculateMapInfos() {
 			double vx=boost::lexical_cast<double>(svx);
 			double vy=boost::lexical_cast<double>(svy);
 			geometry_msgs::Point v;
-			v.x=vx;
-			v.y=vy;
+			v.x=map_origin_x+(vx*resolution);
+			v.y=map_origin_y+(vy*resolution);
 			vertexs.push_back(v);
 			vertexNode=vertexNode->NextSibling();
 		}
@@ -127,22 +127,23 @@ bool SpencerMap::calculateMapInfos() {
 		// v.y=vertexs[0].y;
 		// area_vertexs.push_back(v);
 
-		geometry_msgs::Polygon polygon;
-		polygon.points=area_vertexs;
+		// geometry_msgs::Polygon polygon;
+		// polygon.points=area_vertexs;
 
 		//monitors the area in situation assessment 
 
 
-		situation_assessment_msgs::AddArea addAreaRq;
-		addAreaRq.request.name=name;
-		addAreaRq.request.area=polygon;
+		// situation_assessment_msgs::AddArea addAreaRq;
+		// addAreaRq.request.name=name;
+		// addAreaRq.request.area=polygon;
 
-		if (add_area_client_.call(addAreaRq)) {
-		ROS_INFO("SPENCER_SYMBOLIC_MAP  Called addArea");
-		}
-		else {
-			ROS_WARN("Couldn't add area");
-		}
+		// ROS_INFO("SPENCER_SYMBOLIC_MAP about to call add area");
+		// if (add_area_client_.call(addAreaRq)) {
+		// ROS_INFO("SPENCER_SYMBOLIC_MAP  Called addArea");
+		// }
+		// else {
+		// 	ROS_WARN("Couldn't add area");
+		// }
 
 		partNode=partNode->NextSibling();
 	}

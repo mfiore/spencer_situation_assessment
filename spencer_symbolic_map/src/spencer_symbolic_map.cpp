@@ -22,6 +22,9 @@
 #include "situation_assessment_msgs/Property.h"
 #include "situation_assessment_msgs/Edge.h"
 #include "situation_assessment_msgs/Node.h"
+#include <situation_assessment_msgs/GetLocations.h>
+#include <situation_assessment_msgs/NamedPose.h>
+#include <situation_assessment_msgs/NamedPoseList.h>
 
 #include <spencer_symbolic_map/node_info.h>
 #include <spencer_symbolic_map/spencer_map.h>
@@ -72,6 +75,33 @@ bool getMap(situation_assessment_msgs::GetMap::Request &req, situation_assessmen
 
 }
 
+bool getLocations(situation_assessment_msgs::GetLocations::Request &req, situation_assessment_msgs::GetLocations::Response &res) {
+	vector<string> node_names=spencer_map->getNodes();
+	vector<geometry_msgs::Point> points;
+	vector<geometry_msgs::Polygon> areas;
+
+	for (int i=0; i<node_names.size(); i++) {
+		NodeInfo node_info=spencer_map->getNodeInfo(node_names[i]);
+		points.push_back(node_info.center);
+		vector<geometry_msgs::Point> vertexs=node_info.vertexs;
+
+		geometry_msgs::Polygon polygon;
+		for (int j=0; j<vertexs.size();j++) {
+			geometry_msgs::Point32 vertex_point;
+			vertex_point.x=vertexs[j].x;
+			vertex_point.y=vertexs[j].y;
+			vertex_point.z=vertexs[j].z;
+			polygon.points.push_back(vertex_point);
+		}
+		areas.push_back(polygon);
+	}
+	res.locations=node_names;
+	res.centers=points;
+	res.areas=areas;
+
+	return true;
+}
+
 int main(int argc, char** argv) {
 	ros::init(argc,argv,"spencer_symbolic_map");
 	ros::NodeHandle node_handle;
@@ -88,6 +118,7 @@ int main(int argc, char** argv) {
 	if (!spencer_map->calculateMapInfos()) return 0;
 
 	ros::ServiceServer get_map_service=node_handle.advertiseService("situation_assessment/get_symbolic_map",getMap);
+	ros::ServiceServer get_locations_service=node_handle.advertiseService("situation_assessment/get_locations",getLocations);
 	ROS_INFO("SPENCER_SYMBOLIC_MAP  Starting symbolic map");
 	ros::spin();
 
