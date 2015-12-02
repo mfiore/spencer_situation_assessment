@@ -426,8 +426,8 @@ void SpencerBridge::readObjects() {
 					boost::trim(scy);
 
 					geometry_msgs::Pose this_pose;
-					this_pose.position.x=boost::lexical_cast<double>(scx)*resolution+map_origin_x;
-					this_pose.position.y=boost::lexical_cast<double>(scy)*resolution+map_origin_y;
+					this_pose.position.x=(boost::lexical_cast<double>(scx)*resolution+map_origin_x);
+					this_pose.position.y=-1*(boost::lexical_cast<double>(scy)*resolution+map_origin_y);
 					vertex_poses.push_back(this_pose);
 				}
 				else if (child_name=="name") {

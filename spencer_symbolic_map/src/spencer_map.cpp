@@ -84,7 +84,7 @@ bool SpencerMap::calculateMapInfos() {
 			double vy=boost::lexical_cast<double>(svy);
 			geometry_msgs::Point v;
 			v.x=map_origin_x+(vx*resolution);
-			v.y=map_origin_y+(vy*resolution);
+			v.y=(map_origin_y+(vy*resolution));
 			vertexs.push_back(v);
 			vertexNode=vertexNode->NextSibling();
 		}
@@ -108,20 +108,20 @@ bool SpencerMap::calculateMapInfos() {
 		
 		geometry_msgs::Point origin;
 		origin.x=originX+map_origin_x;
-		origin.y=originY+map_origin_y;
+		origin.y=(originY+map_origin_y);
 
 		node_info_[name]=aMap;
 
 		nodes_.push_back(name);
 
-		vector<geometry_msgs::Point32> area_vertexs;
-		for (int i=0; i<vertexs.size();i++) {
-			geometry_msgs::Point32 v;
-			v.x=map_origin_x+(vertexs[i].x*resolution);
-			v.y=map_origin_y+(vertexs[i].y*resolution);
-			v.z=0;
-			area_vertexs.push_back(v);
-		}
+		// vector<geometry_msgs::Point32> area_vertexs;
+		// for (int i=0; i<vertexs.size();i++) {
+		// 	geometry_msgs::Point32 v;
+		// 	v.x=map_origin_x+(vertexs[i].x*resolution);
+		// 	v.y=-map_origin_y+(vertexs[i].y*resolution);
+		// 	v.z=0;
+		// 	area_vertexs.push_back(v);
+		// }
 		// geometry_msgs::Point32 v;
 		// v.x=vertexs[0].x;
 		// v.y=vertexs[0].y;

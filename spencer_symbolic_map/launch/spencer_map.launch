@@ -1,6 +1,8 @@
 <launch>
    
-     <node name="map_server" pkg="map_server" type="map_server" args="/home/mfiore/ros_workspaces/hydro_ws/src/shary3/common_launch/LAAS-big-v2.yaml"/>  
+     <!-- <node name="map_server" pkg="map_server" type="map_server" args="/home/mfiore/ros_workspaces/hydro_ws/src/shary3/common_launch/LAAS-big-v2.yaml"/>   -->
+  <!-- <node name="map_server" pkg="map_server" type="map_server" args="/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/map_alu_fr/alu_fr.yml"/>    -->
+  <node name="map_server" pkg="map_server" type="map_server" args="/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/schiphol_small_area/schiphol_small_area.yaml"/>  
  
  
 
