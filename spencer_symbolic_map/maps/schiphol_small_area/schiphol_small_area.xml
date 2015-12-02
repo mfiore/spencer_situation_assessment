@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<project>
+	<name>schiphol_small_area</name>
+	<map>
+		<path>/home/palmieri/spencer_ws/src/spencer_soft/mapping/annotated_mapping/maps/schiphol_small_area/schiphol_small_area.pgm</path>
+		<resolution>0.1</resolution>
+		<origin>
+			<x>-100.0</x>
+			<y>-100.0</y>
+		</origin>
+	</map>
+	<classes>/home/palmieri/spencer_ws/src/spencer_soft/mapping/annotated_mapping/maps/schiphol_small_area/schiphol_small_area_classes.xml</classes>
+	<parts>/home/palmieri/spencer_ws/src/spencer_soft/mapping/annotated_mapping/maps/schiphol_small_area/schiphol_small_area_parts.xml</parts>
+	<graph>/home/palmieri/spencer_ws/src/spencer_soft/mapping/annotated_mapping/maps/schiphol_small_area/schiphol_small_area_graph.xml</graph>
+</project>
