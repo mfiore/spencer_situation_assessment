@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<map>
+	<name>3</name>
+	<path>/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/map_alu_fr2/map_alu_fr2_3.pgm</path>
+	<width>110.0</width>
+	<height>89.0</height>
+	<origin>
+		<x>102.0</x>
+		<y>338.0</y>
+	</origin>
+</map>

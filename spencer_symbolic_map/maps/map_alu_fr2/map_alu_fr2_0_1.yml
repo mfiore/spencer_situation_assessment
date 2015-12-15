@@ -1,0 +1,6 @@
+image: map_alu_fr2_0_1.pgm
+resolution: 0.1
+origin: [-13.8, -5.6, 0.0]
+occupied_thresh: 0.5
+free_thresh: 0.5
+negate: 0
