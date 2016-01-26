@@ -157,7 +157,8 @@ void SpencerBridge::trackedPersonsCallback(const spencer_tracking_msgs::TrackedP
 		still_present[name]=true;
 		agent_poses_[name].pose=pose;
 		agent_poses_[name].name=name;
-		agent_poses_[name].type="HUMAN";
+		agent_poses_[name].type="human";
+		agent_poses_[name].category="agent";
 		// ROS_INFO("Got new agent pose %s %f %f",name.c_str(),pose.position.x,pose.position.y);
 	}
 	// // ROS_INFO("Finished, checking presence");
@@ -185,7 +186,8 @@ void SpencerBridge::trackedGroupsCallback(const spencer_tracking_msgs::TrackedGr
 			still_present[group_name]=true;
 			group_poses_[group_name].pose=msg->groups[i].centerOfGravity.pose;
 			group_poses_[group_name].name=group_name;
-			group_poses_[group_name].type="GROUP";
+			group_poses_[group_name].type="group";
+			group_poses_[group_name].category="group";
 
 			vector<string> tracks_in_group;
 			BOOST_FOREACH(int a_track,msg->groups[i].track_ids) {
