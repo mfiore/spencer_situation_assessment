@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<project>-
+	<name>alu_fr</name>
+	<map>
+		<path>/home/pc2/ros-workspace/src/spencer_soft/mapping/annotated_mapping/maps/alu_fr/ALUFR101_2_gridmap_001.pgm</path>
+		<resolution>0.1</resolution>
+		<origin>
+			<x>-40.0</x>
+			<y>-40.0</y>
+		</origin>
+	</map>
+	<classes>/home/pc2/ros-workspace/src/spencer_soft/mapping/annotated_mapping/maps/alu_fr/alu_fr_classes.xml</classes>
+	<parts>/home/pc2/ros-workspace/src/spencer_soft/mapping/annotated_mapping/maps/alu_fr/alu_fr_parts.xml</parts>
+	<graph>/home/pc2/ros-workspace/src/spencer_soft/mapping/annotated_mapping/maps/alu_fr/alu_fr_graph.xml</graph>
+</project>

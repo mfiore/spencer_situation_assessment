@@ -1,0 +1,6 @@
+image: Laas_new3_1_2.pgm
+resolution: 0.1
+origin: [62.9, 73.6, 0.0]
+occupied_thresh: 0.5
+free_thresh: 0.5
+negate: 0

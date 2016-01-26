@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<project>
+	<name>spencer_map</name>
+	<map>
+		<path>/home/mfiore/ros_workspaces/spencer_ws/src/spencer_soft/mapping/ndt_mcl/maps/LAAS-big-v2.pgm</path>
+		<resolution>0.1</resolution>
+		<origin>
+			<x>40.0</x>
+			<y>40.0</y>
+		</origin>
+	</map>
+	<classes>/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/spencer_map_classes.xml</classes>
+	<parts>/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/spencer_map_parts.xml</parts>
+	<graph>/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/spencer_map_graph.xml</graph>
+</project>

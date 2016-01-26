@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<map>
+	<name>4</name>
+	<path>/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/Laas_new3/Laas_new3_4.pgm</path>
+	<width>102.0</width>
+	<height>47.0</height>
+	<origin>
+		<x>381.0</x>
+		<y>246.0</y>
+	</origin>
+</map>

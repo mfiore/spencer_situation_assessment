@@ -1,0 +1,6 @@
+image: /home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/spencer_map_4_5.pgm
+resolution: 0.1
+origin: [78.7, 68.1, 0.0]
+occupied_thresh: 0.5
+free_thresh: 0.5
+negate: 0

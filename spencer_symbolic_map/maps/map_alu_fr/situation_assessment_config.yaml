@@ -1,0 +1,24 @@
+---
+situation_assessment:
+    doc_path: /home/pc2/ros-workspace/src/spencer_soft/mapping/annotated_mapping/maps/map_alu_fr/
+    doc_name: alu_fr
+    information_screen_area_b: 2
+    information_screen_area_h: 3
+    gate_area_b: 3
+    gate_area_h: 5
+    ring_buffer_length: 10
+    use_orientation: false
+    tf_bridge:
+        track_robot: true
+        track_agents: false
+        track_objects: false
+        track_groups: false
+    spencer_bridge:
+        track_robot: false
+        track_agents: true
+        track_objects: true
+        track_groups: true
+    human_names:
+        - HERAKLES_HUMAN1 
+        - HERAKLES_HUMAN2
+        #object_names: 
