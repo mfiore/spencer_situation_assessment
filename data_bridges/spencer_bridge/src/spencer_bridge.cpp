@@ -33,6 +33,7 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 		while (tracked_persons_sub_.getNumPublishers()==0 && ros::ok()) {
 			r.sleep();
 		}
+		ROS_INFO("Connected to tracked person");
 	}
 	if (track_objects_) {
 		readObjects();
@@ -40,7 +41,7 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 	if (track_groups_) {
 		tracked_groups_sub_=node_handle.subscribe("/spencer/perception/tracked_groups",1,
 		&SpencerBridge::trackedGroupsCallback,this);
-		ROS_INFO("Waiting for tracked groups to be published");
+		ROS_INFO("SPENCER_BRIDGE Waiting for tracked groups to be published");
 	}	
 
 	//creates area linked to the robot's position
@@ -74,7 +75,7 @@ SpencerBridge::SpencerBridge(ros::NodeHandle node_handle):DataLib("spencer_bridg
 
 
 	if (add_area_client_.call(add_area_request)) {
-		ROS_INFO("Monitoring %s",robot_name.c_str());
+		ROS_INFO("SPENCER_BRIDGE Monitoring %s",robot_name.c_str());
 	}
 	else {
 		ROS_WARN("Failed to monitor area");
@@ -133,7 +134,7 @@ void SpencerBridge::trackedPersonsCallback(const spencer_tracking_msgs::TrackedP
 	tf::StampedTransform transform;
 
 
-	// ROS_INFO("msg tracks size %ld",msg->tracks.size());
+	// ROS_INFO("SPENCER_BRIDGE msg tracks size %ld",msg->tracks.size());
 	if (msg->tracks.size()>0) {
 		try{
 		    // will transform data in the goal_frame into the planner_frame_
@@ -161,11 +162,11 @@ void SpencerBridge::trackedPersonsCallback(const spencer_tracking_msgs::TrackedP
 		agent_poses_[name].category="agent";
 		// ROS_INFO("Got new agent pose %s %f %f",name.c_str(),pose.position.x,pose.position.y);
 	}
-	// // ROS_INFO("Finished, checking presence");
+	// // ROS_INFO("SPENCER_BRIDGE Finished, checking presence");
 	for (map<string,bool>::iterator agent=still_present.begin(); agent!=still_present.end();
 		agent++) {
 		if (agent->second==false) {
-			// ROS_INFO("Erasing");
+			// ROS_INFO("SPENCER_BRIDGE Erasing");
 			agent_poses_.erase(agent->first);
 		}
 	 }
