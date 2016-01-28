@@ -69,10 +69,12 @@ bool SpencerMap::calculateMapInfos() {
 
 		aMap.name=name;
 		geometry_msgs::Point center;
-		center.x=map_origin_x+(centerX*resolution);
-		center.y=map_origin_y+(centerY*resolution);
-		aMap.center=center;
+		//		center.x=map_origin_x+(centerX*resolution);
+		//	center.y=map_origin_y+(centerY*resolution);
+		//	aMap.center=center;
 
+		double center_x=0;
+		double center_y=0;
 		tinyxml2::XMLNode *vertexNode=partNode->FirstChildElement("annotation")->FirstChildElement("vertex");
 		vector<geometry_msgs::Point> vertexs;
 		while (vertexNode!=NULL) {
@@ -83,11 +85,19 @@ bool SpencerMap::calculateMapInfos() {
 			double vx=boost::lexical_cast<double>(svx);
 			double vy=boost::lexical_cast<double>(svy);
 			geometry_msgs::Point v;
+			center_x=center_x+vx;
+			center_y=center_y+vy;
 			v.x=map_origin_x+(vx*resolution);
 			v.y=(map_origin_y+(vy*resolution));
 			vertexs.push_back(v);
 			vertexNode=vertexNode->NextSibling();
 		}
+		center_x=center_x/vertexs.size();
+		center_y=center_y/vertexs.size();
+		center.x=map_origin_x+(center_x*resolution);
+		center.y=map_origin_y+(center_y*resolution);
+		ROS_INFO("SPENCER_MAP map_origin %f %f center %f %f %f %f",map_origin_x,map_origin_y,center_x,center_y,resolution);
+		aMap.center=center;
 		aMap.vertexs=vertexs;
 
 		tinyxml2::XMLDocument partInfoNode;
