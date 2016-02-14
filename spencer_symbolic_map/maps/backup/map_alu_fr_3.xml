@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<project>
+	<name>map_alu_fr_3</name>
+	<map>
+		<path>/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/map_alu_fr/ALUFR101_2_gridmap_001.pgm</path>
+		<resolution>0.1</resolution>
+		<origin>
+			<x>-40.0</x>
+			<y>-40.0</y>
+		</origin>
+	</map>
+	<classes>/home/mfiore/ros_workspaces/spencer_ws/src/spencer_soft/mapping/annotated_mapping/map_tool/map_alu_fr_3_classes.xml</classes>
+	<parts>/home/mfiore/ros_workspaces/spencer_ws/src/spencer_soft/mapping/annotated_mapping/map_tool/map_alu_fr_3_parts.xml</parts>
+	<graph>/home/mfiore/ros_workspaces/spencer_ws/src/spencer_soft/mapping/annotated_mapping/map_tool/map_alu_fr_3_graph.xml</graph>
+</project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<map>
+	<name>1</name>
+	<path>/home/mfiore/ros_workspaces/spencer_ws/src/spencer_soft/mapping/annotated_mapping/map_tool/map_alu_fr_3_1.pgm</path>
+	<width>105.0</width>
+	<height>109.0</height>
+	<origin>
+		<x>166.0</x>
+		<y>336.0</y>
+	</origin>
+</map>

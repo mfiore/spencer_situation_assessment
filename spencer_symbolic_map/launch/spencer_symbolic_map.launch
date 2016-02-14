@@ -6,12 +6,19 @@
 	 <param name="start_node_1" value="0" type="str"/> 
      <param name="start_node_2" value="1" type="str"/>   
  </node> -->  
-    <node name="map_server" pkg="annotated_mapping" type="map_publishing_node" output="screen">
+<!--     <node name="map_server" pkg="annotated_mapping" type="map_publishing_node" output="screen">
        <param name="map_files" value="$(find spencer_symbolic_map)/maps/map_alu_fr2/map_alu_fr2_0_1.yml;$(find spencer_symbolic_map)/maps/map_alu_fr2/map_alu_fr2_1_2.yml;$(find spencer_symbolic_map)/maps/map_alu_fr2/map_alu_fr2_2_3.yml" /> 
 	<param name="start_node_1" value="0" type="str"/>
     <param name="start_node_2" value="1" type="str"/>  
 </node>  
-
-
-  <node name="spencer_symbolic_map" pkg="spencer_symbolic_map" type="spencer_symbolic_map" output="screen" />
+ -->
+ <node name="map_server" pkg="annotated_mapping" type="map_publishing_node_triples" output="screen">
+  <param name="maps_dir" value="/home/mfiore/ros_workspaces/my_spencer_ws/src/spencer_situation_assessment/spencer_symbolic_map/maps/map_alu_fr_3/" />
+  <param name="start_node_1" value="0" type="str" />
+  <param name="start_node_2" value="1" type="str" />
+  <param name="start_node_3" value="2" type="str" />
+  <param name="use_files" value="false" type="bool" />
+</node>
+ 
+  <node name="spencer_symbolic_map" pkg="spencer_symbolic_map" type="spencer_symbolic_map" output="screen" /> 
 </launch>
