@@ -13,7 +13,7 @@
 </node>  
  -->
  <node name="map_server" pkg="annotated_mapping" type="map_publishing_node_triples" output="screen">
-  <param name="maps_dir" value="$(find spencer_symbolic_map)/maps//maps/map_alu_fr_3/" />
+  <param name="maps_dir" value="$(find spencer_symbolic_map)/maps/map_alu_fr_3" />
   <param name="start_node_1" value="0" type="str" />
   <param name="start_node_2" value="1" type="str" />
   <param name="start_node_3" value="2" type="str" />
